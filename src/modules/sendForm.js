@@ -10,8 +10,8 @@ const sendForm = () => {
 	const mainForm = document.querySelector('.main-form');
 	const sectionForm = document.querySelector('.section-form').querySelector('form');
 
+	// собираем массив из нужных форм
 	const formArray = [];
-
 	formArray.push(mainForm);
 	formArray.push(sectionForm);
 
@@ -44,7 +44,6 @@ const sendForm = () => {
 					}
 				};
 
-
 				item.appendChild(statusMessage);
 				statusMessage.textContent = laodMessage;
 
@@ -66,8 +65,25 @@ const sendForm = () => {
 					});
 
 			});
-
 		}
+		//  запрет ввода символов в поля ввода
+		const validate = form => {
+			const tel = form.querySelector('[name="user_phone"]'),
+				name = form.querySelector('[name="user_name"]');
+
+			tel.addEventListener('input', ev => {
+				const target = ev.target;
+				target.value = target.value.replace(/[+0-9]/g, '');
+			});
+			if (name) {
+				name.addEventListener('input', ev => {
+					const target = ev.target;
+					target.value = target.value.replace(/[^а-яА-Я ]/g, '');
+				});
+			}
+		};
+
+		validate(item);
 
 	});
 
