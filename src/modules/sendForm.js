@@ -73,7 +73,7 @@ const sendForm = () => {
 
 			tel.addEventListener('input', ev => {
 				const target = ev.target;
-				target.value = target.value.replace(/[+0-9]/g, '');
+				target.value = target.value.replace(/[^+0-9]/g, '');
 			});
 			if (name) {
 				name.addEventListener('input', ev => {
