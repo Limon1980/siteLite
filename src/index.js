@@ -5,6 +5,7 @@ import popupCall from './modules/popupCall';
 import validateForm from './modules/validateForm';
 import sendForm from './modules/sendForm';
 import popupDiscount from "./modules/popupDiscount";
+import popupCheck from './modules/popupCheck';
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -20,6 +21,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	// Модальное окно popupDiscont
 	popupDiscount();
+
+	// Модальное окно popup-check
+	popupCheck();
 
 });
 
