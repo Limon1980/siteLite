@@ -25,6 +25,7 @@ const popupDiscount = () => {
 				item.parentNode.style.cssText = `
 				display: block!important
 			`;
+				item.classList.add('animated');
 				addSentenceBtn.style.display = 'none';
 			}
 		});
