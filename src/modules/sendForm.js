@@ -14,6 +14,10 @@ const sendForm = () => {
 		item.addEventListener('submit', e => {
 			e.preventDefault();
 
+			if (item.classList.contains('director-form')) {
+				return;
+			}
+
 			const formData = new FormData(item);
 			const body = {};
 

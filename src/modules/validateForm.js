@@ -23,7 +23,7 @@ const validateForm = () => {
 		if (text) {
 			text.addEventListener('input', ev => {
 				const target = ev.target;
-				target.value = target.value.replace(/[^а-яА-Я ]/g, '');
+				target.value = target.value.replace(/[^\W\s0-9]/g, '');
 			});
 		}
 	};
