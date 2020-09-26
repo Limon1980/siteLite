@@ -23,7 +23,8 @@ const popupDiscount = () => {
 		shadowBlock.forEach((item, key) => {
 			if (key > 2) {
 				item.parentNode.style.cssText = `
-				display: block!important
+				display: block!important;
+				animation: shadow  1s ease-in-out;
 			`;
 				item.classList.add('animated');
 				addSentenceBtn.style.display = 'none';

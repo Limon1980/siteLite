@@ -7,6 +7,7 @@ import sendForm from './modules/sendForm';
 import popupDiscount from "./modules/popupDiscount";
 import popupCheck from './modules/popupCheck';
 import popupConsult from './modules/popupСonsult';
+import accordion from './modules/accordion';
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -28,6 +29,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	// Модальное окно popup-consultation
 	popupConsult();
+
+	// Акордион вопросы
+	accordion();
 
 });
 

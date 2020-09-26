@@ -1,0 +1,17 @@
+#collapseOne-two,
+#collapseTwo-two,
+#collapseThree-two {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.8s ease-in-out;
+}
+
+@keyframes shadow {
+	from {opacity: 0;}
+	50% {opacity: 0.5;}
+	to {opacity: 1;}
+	}
+
+
+
+
