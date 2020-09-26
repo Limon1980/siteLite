@@ -26,7 +26,6 @@ const popupDiscount = () => {
 				display: block!important;
 				animation: shadow  1s ease-in-out;
 			`;
-				item.classList.add('animated');
 				addSentenceBtn.style.display = 'none';
 			}
 		});
