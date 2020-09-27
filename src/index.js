@@ -8,6 +8,7 @@ import popupDiscount from "./modules/popupDiscount";
 import popupCheck from './modules/popupCheck';
 import popupConsult from './modules/popupСonsult';
 import accordion from './modules/accordion';
+import calc from "./modules/calc";
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -32,6 +33,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	// Акордион вопросы
 	accordion();
+
+	// Калькулятор
+	calc();
 
 });
 

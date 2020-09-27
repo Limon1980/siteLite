@@ -17,7 +17,6 @@ const popupDiscount = () => {
 
 	});
 
-
 	addSentenceBtn.addEventListener('click', () => {
 
 		shadowBlock.forEach((item, key) => {
@@ -31,12 +30,6 @@ const popupDiscount = () => {
 		});
 	});
 
-
-
-
-
-
 };
-
 
 export default popupDiscount;

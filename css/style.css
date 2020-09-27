@@ -681,7 +681,7 @@ header .logo img {
 }
 
 .constructor .panel-four p::after {
-	position: absolute;
+	position: inherit;
 	content: "метров";
 	margin-left: 6rem;
 	margin-top: 4.5rem;

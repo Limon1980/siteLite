@@ -19,10 +19,16 @@ const sendForm = () => {
 			}
 
 			const formData = new FormData(item);
-			const body = {};
-
+			let body = {};
+			const obj = JSON.parse(localStorage.getItem('Data'));
 			for (const val of formData.entries()) {
 				body[val[0]] = val[1];
+			}
+			if (obj.check === 'true') {
+				delete obj.check;
+				body = obj;
+				localStorage.setItem('Data', JSON.stringify('{check: "false"}'));
+				console.log(body);
 			}
 
 			const postData = body => fetch('server.php', {
