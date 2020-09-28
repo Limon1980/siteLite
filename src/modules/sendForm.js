@@ -2,7 +2,9 @@ const sendForm = () => {
 
 	const erorMessage = 'Что-то пошло не так...',
 		laodMessage = 'Загрузка...',
+		phoneForm = 'Введите номер телефона из 11 цифр',
 		successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+
 
 	const statusMessage = document.createElement('div');
 	statusMessage.style.cssText = 'font-size: 2rem; color: red;';
@@ -13,22 +15,30 @@ const sendForm = () => {
 
 		item.addEventListener('submit', e => {
 			e.preventDefault();
-
 			if (item.classList.contains('director-form')) {
 				return;
 			}
+			if (item.classList.contains('invalid')) {
+				item.appendChild(statusMessage);
+				statusMessage.textContent = phoneForm;
+				setTimeout(() => {
+					statusMessage.textContent = '';
+				}, 2000);
+				return;
+			} else {
+				statusMessage.textContent = '';
+			}
 
 			const formData = new FormData(item);
-			let body = {};
+			const body = {};
 			const obj = JSON.parse(localStorage.getItem('Data'));
 			for (const val of formData.entries()) {
 				body[val[0]] = val[1];
 			}
 			if (obj.check === 'true') {
 				delete obj.check;
-				body = obj;
+				body.zakaz = obj;
 				localStorage.setItem('Data', JSON.stringify('{check: "false"}'));
-				console.log(body);
 			}
 
 			const postData = body => fetch('server.php', {

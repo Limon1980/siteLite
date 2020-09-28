@@ -95,13 +95,20 @@ const calc = () => {
 	const obj = {};
 	// начальное значение объекта
 	const restObj = start => {
-		calcResult.value = start;
+
+		if (!obj.result2) {
+			obj.result2 = 0;
+		}
+		calcResult.value = start + obj.result2;
 		obj.result = start;
 		obj.diameter1 = formDiametr1;
 		obj.rings1 = formRings1;
 		obj.diameter2 = formDiametr2;
 		obj.rings2 = formRings2;
 		obj.check = 'false';
+
+
+
 	};
 
 	// проверка чек бокс наличия дна
@@ -111,6 +118,7 @@ const calc = () => {
 			const data = JSON.parse(localStorage.getItem('Data'));
 			const result = data.result;
 			if (myOnOffSwitchTwo.checked) {
+
 				if (!myOnOffSwitchOne.checked) {
 					obj.result = Math.floor(result * 1.2);
 				} else {
@@ -124,9 +132,7 @@ const calc = () => {
 				calcResult.value = obj.result;
 			}
 		};
-
 		renewBottom();
-
 		myOnOffSwitchTwo.addEventListener('change', () => {
 			renewBottom();
 		});
@@ -171,7 +177,7 @@ const calc = () => {
 
 	//одно камерный рачет
 	const chamberOne = () => {
-
+		restObj(10000);
 		localStorage.setItem("Data", JSON.stringify(obj));
 
 		formControl.forEach(item => {
@@ -197,39 +203,57 @@ const calc = () => {
 		});
 		bottomChange();
 	};
-	// если сепртик одно камерный
+
+	// дву камерный расчет
+	const cramberTwo = () => {
+		calcForm();
+		if (formDiametr2 === '2 метра') {
+			obj.diameter2 = formDiametr2;
+			obj.result2 = 5000 * 1.2;
+			formRingsChamber2(obj.result2);
+			obj.result += obj.result2;
+			calcResult.value = obj.result;
+		} else {
+			obj.result2 = 5000;
+			obj.diameter2 = formDiametr2;
+			formRingsChamber2(obj.result2);
+			obj.result += obj.result2;
+			calcResult.value = obj.result;
+		}
+		localStorage.setItem("Data", JSON.stringify(obj));
+		bottomChange();
+
+	};
+
+	// если септик одно камерный
 	if (myOnOffSwitchOne.checked) {
 		restObj(10000);
 		chamberOne();
+	} else {
+		restObj(10000);
+		obj.result2 = 5000;
+		localStorage.setItem("Data", JSON.stringify(obj));
 	}
 
 	myOnOffSwitchOne.addEventListener('change', () => {
+		formControl.forEach(item => {
+			item[0].selected = true;
+		});
+		myOnOffSwitchTwo.checked = false;
 		if (myOnOffSwitchOne.checked) {
+
 			restObj(10000);
 			chamberOne();
+			obj.diameter2 = '';
+			obj.rings2 = '';
+			localStorage.setItem("Data", JSON.stringify(obj));
 		} else {
-
-
 			formControl.forEach(item => {
-				restObj(15000);
+				obj.result2 = 5000;
+				restObj(10000);
+				cramberTwo();
 				item.addEventListener('change', () => {
-					// chamberOne();
-					calcForm();
-					if (formDiametr2 === '2 метра') {
-						obj.diameter2 = formDiametr2;
-						obj.result2 = 5000 * 1.2;
-						formRingsChamber2(obj.result2);
-						obj.result += obj.result2;
-						calcResult.value = obj.result;
-					} else {
-						obj.result2 = 5000;
-						obj.diameter2 = formDiametr2;
-						formRingsChamber2(obj.result2);
-						obj.result += obj.result2;
-						calcResult.value = obj.result;
-					}
-					localStorage.setItem("Data", JSON.stringify(obj));
-					bottomChange();
+					cramberTwo();
 				});
 			});
 
@@ -246,13 +270,14 @@ const calc = () => {
 		obj.distance = inputDistance.value;
 		obj.check = 'true';
 		inputDistance.value = '';
+		delete obj.result2;
 		localStorage.setItem("Data", JSON.stringify(obj));
 		formControl.forEach(item => {
 			item[0].selected = true;
 		});
 		myOnOffSwitchTwo.checked = false;
-		myOnOffSwitchOne.checked = false;
-		restObj(1000);
+		myOnOffSwitchOne.checked = true;
+		restObj(10000);
 	});
 
 

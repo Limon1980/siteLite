@@ -3,7 +3,8 @@ const popupConsult = () => {
 	const consultationBtn = document.querySelector('.consultation-btn');
 	const directorForm = document.querySelector('.director-form');
 
-	consultationBtn.addEventListener('click', () => {
+	consultationBtn.addEventListener('click', e => {
+		e.preventDefault();
 		const textDirectorForm = directorForm.querySelector('input');
 		const textDirectorFormValue = textDirectorForm.value;
 		const formConsult = popupConsult.querySelector('form');
@@ -14,8 +15,6 @@ const popupConsult = () => {
 		popupConsult.style.display = 'block';
 
 	});
-
-
 
 };
 
