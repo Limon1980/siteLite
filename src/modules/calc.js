@@ -9,7 +9,6 @@ const calc = () => {
 		thirdText = document.getElementById('collapseThree'),
 		fourText = document.getElementById('collapseFour'),
 		myOnOffSwitchOne = document.getElementById('myonoffswitch'),
-		myOnOffSwitchTwo = document.getElementById('myonoffswitch-two'),
 		sampTwo = constructor.querySelector('.sump-two'),
 		calcResult = document.getElementById('calc-result');
 
@@ -77,208 +76,114 @@ const calc = () => {
 
 
 
-	const formControl = document.querySelectorAll('.form-control'),
-		inputDistance = document.querySelector('.distance');
-	let formDiametr1 = formControl[0].value,
-		formRings1 = formControl[1].value,
-		formDiametr2 = formControl[2].value,
-		formRings2 = formControl[3].value;
-
-	// считываем input формы
-	const calcForm = () => {
-		formDiametr1 = formControl[0].value;
-		formRings1 = formControl[1].value;
-		formDiametr2 = formControl[2].value;
-		formRings2 = formControl[3].value;
-	};
+	const formControl = document.querySelectorAll('.form-control');
+	const constructInput = constructor.querySelectorAll('input');
 
 	const obj = {};
-	// начальное значение объекта
-	const restObj = start => {
 
-		if (!obj.result2) {
-			obj.result2 = 0;
-		}
-		calcResult.value = start + obj.result2;
-		obj.result = start;
-		obj.diameter1 = formDiametr1;
-		obj.rings1 = formRings1;
-		obj.diameter2 = formDiametr2;
-		obj.rings2 = formRings2;
-		obj.check = 'false';
+	const readForm = () => {
+		const myOnOffSwitchOne = document.getElementById('myonoffswitch'),
+			myOnOffSwitchTwo = document.getElementById('myonoffswitch-two'),
+			formDiametr1 = formControl[0].value,
+			formRings1 = formControl[1].value,
+			formDiametr2 = formControl[2].value,
+			formRings2 = formControl[3].value;
 
+		obj.result = 10000;
 
-
-	};
-
-	// проверка чек бокс наличия дна
-	const bottomChange = () => {
-
-		const renewBottom = () => {
-			const data = JSON.parse(localStorage.getItem('Data'));
-			const result = data.result;
-			if (myOnOffSwitchTwo.checked) {
-
-				if (!myOnOffSwitchOne.checked) {
-					obj.result = Math.floor(result * 1.2);
-				} else {
-					obj.result = Math.floor(result * 1.1);
+		const calcForm1 = () => {
+			if (formDiametr1 === '2 метра') {
+				obj.diameter1 = formDiametr1;
+				obj.result *= 1.2;
+				if (formRings1 === '1 штука') {
+					obj.rings1 = formRings1;
 				}
-				obj.bottom = 'true';
-				calcResult.value = obj.result;
+				if (formRings1 === '2 штуки') {
+					obj.result *= 1.3;
+					obj.rings1 = formRings1;
+				}
+				if (formRings1 === '3 штуки') {
+					obj.result *= 1.5;
+					obj.rings1 = formRings1;
+				}
 			} else {
-				obj.bottom = 'false';
-				obj.result = Math.floor(result);
-				calcResult.value = obj.result;
+				obj.diameter1 = formDiametr1;
+				if (formRings1 === '1 штука') {
+					obj.rings1 = formRings1;
+				}
+				if (formRings1 === '2 штуки') {
+					obj.result *= 1.3;
+					obj.rings1 = formRings1;
+				}
+				if (formRings1 === '3 штуки') {
+					obj.result *= 1.5;
+					obj.rings1 = formRings1;
+				}
 			}
 		};
-		renewBottom();
-		myOnOffSwitchTwo.addEventListener('change', () => {
-			renewBottom();
-		});
-	};
-	// считаем кольца у первой камеры
-	const formRingsChamber1 = result => {
-		if (formRings1 === '1 штука') {
-			obj.result = result;
-			calcResult.value = obj.result;
-			obj.rings1 = formRings1;
-		}
-		if (formRings1 === '2 штуки') {
-			obj.result = result * 1.3;
-			calcResult.value = obj.result;
-			obj.rings1 = formRings1;
-		}
-		if (formRings1 === '3 штуки') {
-			obj.result = result * 1.5;
-			calcResult.value = obj.result;
-			obj.rings1 = formRings1;
-		}
-	};
 
-	// считаем кольца у ворой камеры
-	const formRingsChamber2 = result => {
-		if (formRings2 === '1 штука') {
-			obj.result2 = result;
-			calcResult.value = obj.result2;
-			obj.rings2 = formRings2;
-		}
-		if (formRings2 === '2 штуки') {
-			obj.result2 = result * 1.2;
-			calcResult.value = obj.result2;
-			obj.rings2 = formRings2;
-		}
-		if (formRings2 === '3 штуки') {
-			obj.result2 = result * 1.4;
-			calcResult.value = obj.result2;
-			obj.rings2 = formRings2;
-		}
-	};
-
-	//одно камерный рачет
-	const chamberOne = () => {
-		restObj(10000);
-		localStorage.setItem("Data", JSON.stringify(obj));
-
-		formControl.forEach(item => {
-			restObj(10000);
-			item.addEventListener('change', () => {
-				calcForm();
-				if (formDiametr1 === '2 метра') {
-					obj.diameter1 = formDiametr1;
-					obj.result = 10000 * 1.2;
-					calcResult.value = obj.result;
-					formRingsChamber1(obj.result);
-				} else {
-					obj.result = 10000;
-					obj.diameter1 = formDiametr1;
-					calcResult.value = obj.result;
-					formRingsChamber1(obj.result);
-				}
-				obj.diameter2 = '';
-				obj.rings2 = '';
-				localStorage.setItem("Data", JSON.stringify(obj));
-				bottomChange();
-			});
-		});
-		bottomChange();
-	};
-
-	// дву камерный расчет
-	const cramberTwo = () => {
-		calcForm();
-		if (formDiametr2 === '2 метра') {
-			obj.diameter2 = formDiametr2;
-			obj.result2 = 5000 * 1.2;
-			formRingsChamber2(obj.result2);
-			obj.result += obj.result2;
-			calcResult.value = obj.result;
-		} else {
-			obj.result2 = 5000;
-			obj.diameter2 = formDiametr2;
-			formRingsChamber2(obj.result2);
-			obj.result += obj.result2;
-			calcResult.value = obj.result;
-		}
-		localStorage.setItem("Data", JSON.stringify(obj));
-		bottomChange();
-
-	};
-
-	// если септик одно камерный
-	if (myOnOffSwitchOne.checked) {
-		restObj(10000);
-		chamberOne();
-	} else {
-		restObj(10000);
-		obj.result2 = 5000;
-		localStorage.setItem("Data", JSON.stringify(obj));
-	}
-
-	myOnOffSwitchOne.addEventListener('change', () => {
-		formControl.forEach(item => {
-			item[0].selected = true;
-		});
-		myOnOffSwitchTwo.checked = false;
 		if (myOnOffSwitchOne.checked) {
-
-			restObj(10000);
-			chamberOne();
-			obj.diameter2 = '';
-			obj.rings2 = '';
-			localStorage.setItem("Data", JSON.stringify(obj));
+			console.log('Включен первый свитч');
+			calcForm1();
 		} else {
-			formControl.forEach(item => {
-				obj.result2 = 5000;
-				restObj(10000);
-				cramberTwo();
-				item.addEventListener('change', () => {
-					cramberTwo();
-				});
-			});
-
+			console.log('Две камеры');
+			obj.result2 = 5000;
+			if (formDiametr2 === '2 метра') {
+				obj.diameter2 = formDiametr2;
+				obj.result2 *= 1.2;
+				calcForm1();
+				if (formRings2 === '1 штука') {
+					obj.rings2 = formRings2;
+				}
+				if (formRings2 === '2 штуки') {
+					obj.result2 *= 1.2;
+					obj.rings2 = formRings2;
+				}
+				if (formRings2 === '3 штуки') {
+					obj.result2 *= 1.4;
+					obj.rings2 = formRings2;
+				}
+			} else {
+				obj.diameter2 = formDiametr2;
+				calcForm1();
+				if (formRings2 === '1 штука') {
+					obj.rings2 = formRings2;
+				}
+				if (formRings2 === '2 штуки') {
+					obj.result2 *= 1.2;
+					obj.rings2 = formRings2;
+				}
+				if (formRings2 === '3 штуки') {
+					obj.result2 *= 1.4;
+					obj.rings2 = formRings2;
+				}
+			}
 		}
-	});
-
-
-	const callBtn = constructor.querySelector('.call-btn');
-	const popupDiscount = document.querySelector('.popup-discount');
-
-	callBtn.addEventListener('click', e => {
-		e.preventDefault();
-		popupDiscount.style.display = 'block';
-		obj.distance = inputDistance.value;
-		obj.check = 'true';
-		inputDistance.value = '';
+		if (!obj.result2) obj.result2 = 0;
+		obj.result += obj.result2;
 		delete obj.result2;
-		localStorage.setItem("Data", JSON.stringify(obj));
-		formControl.forEach(item => {
-			item[0].selected = true;
+		console.log(obj);
+
+
+	};
+	readForm();
+
+	formControl.forEach(item => {
+		item.addEventListener('change', event => {
+			event.preventDefault();
+			// const target = event.target;
+			readForm();
 		});
-		myOnOffSwitchTwo.checked = false;
-		myOnOffSwitchOne.checked = true;
-		restObj(10000);
 	});
+
+	constructInput.forEach(item => {
+		item.addEventListener('change', event => {
+			event.preventDefault();
+			// const target = event.target;
+			readForm();
+		});
+	});
+
 
 
 
