@@ -91,6 +91,7 @@ const calc = () => {
 
 		obj.result = 10000;
 
+		// расчитывает данные по первой камере
 		const calcForm1 = () => {
 			if (formDiametr1 === '2 метра') {
 				obj.diameter1 = formDiametr1;
@@ -123,10 +124,13 @@ const calc = () => {
 		};
 
 		if (myOnOffSwitchOne.checked) {
-			console.log('Включен первый свитч');
 			calcForm1();
+			if (obj.diameter2) {
+				delete obj.diameter2;
+				delete obj.rings2;
+			}
 		} else {
-			console.log('Две камеры');
+			// рассчитываем данные формы по второй камере
 			obj.result2 = 5000;
 			if (formDiametr2 === '2 метра') {
 				obj.diameter2 = formDiametr2;
@@ -159,12 +163,21 @@ const calc = () => {
 				}
 			}
 		}
+		// складываем расчеты по первой и второй камере
 		if (!obj.result2) obj.result2 = 0;
 		obj.result += obj.result2;
 		delete obj.result2;
-		console.log(obj);
 
+		// проверка есть ли дно
+		if (myOnOffSwitchTwo.checked) {
 
+			if (myOnOffSwitchOne.checked) {
+				obj.result = Math.floor(obj.result * 1.1);
+			} else {
+				obj.result = Math.floor(obj.result * 1.2);
+			}
+		}
+		calcResult.value = obj.result;
 	};
 	readForm();
 
@@ -173,6 +186,7 @@ const calc = () => {
 			event.preventDefault();
 			// const target = event.target;
 			readForm();
+
 		});
 	});
 
@@ -181,10 +195,22 @@ const calc = () => {
 			event.preventDefault();
 			// const target = event.target;
 			readForm();
+
 		});
 	});
 
+	const callBtn = constructor.querySelector('.call-btn');
+	const popupDiscount = document.querySelector('.popup-discount');
 
+
+	callBtn.addEventListener('click', e => {
+		e.preventDefault();
+		const inputDistance = document.querySelector('.distance');
+		popupDiscount.style.display = 'block';
+		obj.distance = inputDistance.value;
+		// console.log(obj);
+		localStorage.setItem("Data", JSON.stringify(obj));
+	});
 
 
 };

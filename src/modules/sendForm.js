@@ -30,15 +30,15 @@ const sendForm = () => {
 			}
 
 			const formData = new FormData(item);
-			const body = {};
+			let body = {};
 			const obj = JSON.parse(localStorage.getItem('Data'));
-			for (const val of formData.entries()) {
-				body[val[0]] = val[1];
-			}
-			if (obj.check === 'true') {
-				delete obj.check;
-				body.zakaz = obj;
-				localStorage.setItem('Data', JSON.stringify('{check: "false"}'));
+
+			if (obj) {
+				body = obj;
+			} else {
+				for (const val of formData.entries()) {
+					body[val[0]] = val[1];
+				}
 			}
 
 			const postData = body => fetch('server.php', {
@@ -65,12 +65,12 @@ const sendForm = () => {
 					if (response.status !== 200) {
 						throw new Error('status network not 200');
 					}
-
 					statusMessage.textContent = successMessage;
 					clearForm();
 					setTimeout(() => {
 						statusMessage.textContent = '';
 					}, 3000);
+					localStorage.removeItem('Data');
 				})
 				.catch(error => {
 					statusMessage.textContent = erorMessage;
