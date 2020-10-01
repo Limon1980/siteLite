@@ -5,7 +5,6 @@ const sendForm = () => {
 		phoneForm = 'Введите номер телефона из 11 цифр',
 		successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
-
 	const statusMessage = document.createElement('div');
 	statusMessage.style.cssText = 'font-size: 2rem; color: red;';
 
