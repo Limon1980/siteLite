@@ -29,15 +29,14 @@ const sendForm = () => {
 			}
 
 			const formData = new FormData(item);
-			let body = {};
+			const body = {};
 			const obj = JSON.parse(localStorage.getItem('Data'));
+			for (const val of formData.entries()) {
+				body[val[0]] = val[1];
+			}
 
 			if (obj) {
-				body = obj;
-			} else {
-				for (const val of formData.entries()) {
-					body[val[0]] = val[1];
-				}
+				body.zakaz = obj;
 			}
 
 			const postData = body => fetch('server.php', {
