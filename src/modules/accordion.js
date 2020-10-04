@@ -2,35 +2,44 @@ const accordion = () => {
 
 	const sectionQuestions = document.querySelector('.questions'),
 		button = sectionQuestions.querySelectorAll('.panel-heading'),
-		firstText = document.getElementById('collapseOne-two'),
-		secondText = document.getElementById('collapseTwo-two'),
-		thirdText = document.getElementById('collapseThree-two');
+		accordionContents = sectionQuestions.querySelectorAll('.panel-collapse'),
+		firstText = document.getElementById('collapseOne-two');
+
 
 	firstText.style.maxHeight = firstText.scrollHeight + "px";
+	firstText.style.opacity = 1;
 	button.forEach(elem => {
 		elem.style.cursor = 'pointer';
 	});
 
 
-	button.forEach(elem => {
-		elem.addEventListener('click', event => {
+	button.forEach(itemAcc => {
+		itemAcc.addEventListener('click', event => {
 			event.preventDefault();
-			const target = event.target;
-			const changeContent = (one, second, third) => {
-				one.style.maxHeight = firstText.scrollHeight + "px";
-				third.style.maxHeight = null;
-				second.style.maxHeight = null;
-			};
-			if (target.closest('.panel-heading') === button[0]) {
-				changeContent(firstText, secondText, thirdText);
+			const context = itemAcc.nextElementSibling;
+			if (context.style.maxHeight) {
+				context.classList.remove('is-open');
+				context.style.maxHeight = null;
+				context.style.opacity = 0;
+			} else {
+				context.classList.add('is-open');
+				context.style.maxHeight = context.scrollHeight + 'px';
+				context.style.opacity = 1;
 			}
-			if (target.closest('.panel-heading') === button[1]) {
-				changeContent(secondText, firstText, thirdText);
-			}
-			if (target.closest('.panel-heading') === button[2]) {
-				changeContent(thirdText, firstText, secondText);
-			}
+
+			accordionContents.forEach(itemCon => {
+				if (itemCon !== context) {
+					itemCon.style.maxHeight = null;
+				}
+			});
+			button.forEach(item => {
+				if (item !== itemAcc) {
+					item.classList.remove('is-open');
+				}
+			});
 		});
+
+
 	});
 
 };

@@ -6,8 +6,9 @@
 #collapseTwo-two,
 #collapseThree-two {
   max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.8s ease-in-out;
+	overflow: hidden;
+	opacity: 0;
+	transition: max-height 1s ease-in-out, opacity 1s ease-in-out;
 }
 
 @keyframes shadow {
@@ -15,6 +16,7 @@
 	50% {opacity: 0.5;}
 	to {opacity: 1;}
 	}
+
 
 
 
